@@ -57,7 +57,7 @@ Each block ships as a static, prerendered schematic SVG that shows with JavaScri
 - Fence languages: `circuit` and `circuitext`. Meta options: `title="…"`, `editable` (show Edit), `live` (mount the editor immediately), `height=NNN`, `kicad` (show the download), and `noprerender` (escape hatch).
 - Prerender runs in Node at build time with the library's own `compile`. No headless browser.
 - The output must be deterministic. The same source and library version give a byte-identical SVG, which the circuit-to-svg output already is. The cache key is `sha256(source + circuitext version + tscircuit core version + options)`.
-- Build-time errors stop the build with `docs/<path>.mdx:<fenceLine+line>:<col>`. Map fence-relative `loc` to the MDX file line. Warnings only print.
+- Build-time errors stop the build with `docs/<path>.mdx:<fenceLine+line>:<col>`. Map fence-relative `loc` to the MDX file line. Every error must show the file, the line number and the compiler message. This applies to `site:build` and CI; a broken circuit block is never downgraded to a warning or error box. Warnings only print.
 - The inlined SVG is sanitised: no `<script>`, no `on*` attributes, and `id`s prefixed per block to avoid collisions between several SVGs on one page.
 - Keep the build fast. Compile fences concurrently with a small pool (`os.availableParallelism()`, max 4) and reuse cached results across builds (`website/.cache/`, plus cached in CI via `actions/cache`).
 - Don't touch ```` ```mermaid ```` blocks. The Mermaid adapter is a separate integration.
@@ -85,7 +85,7 @@ The remark plugin is a pure function `(options) => transformer` using `unist-uti
 
 ## Open questions
 1. Is the fence keyword `circuit` (with `circuitext` as an alias) right? Some Markdown tools already use `circuit` for other things, so should the canonical one be `circuitext`?
-2. Should a fence error fail the build (the plan's default) or render an error box and warn, at least in `site:start` dev mode?
+2. ~~Should a fence error fail the build or render an error box and warn?~~ **Resolved (2026-10-27): a broken circuit block FAILS the site build, not just a warning.** The error must show the file, the line number and the compiler message (e.g. `docs/x.mdx:12:5: error: unknown pin …`).
 3. Should every block be editable by default, or opt-in via `editable`? The plan assumes opt-in, to keep pages calm and light.
 4. Should KiCad downloads also be prerendered at build time as static `.kicad_sch` assets, so they work without the worker? This adds build time but no JS weight.
 

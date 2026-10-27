@@ -61,16 +61,16 @@ Node/TypeScript per `.anchor/conventions.md`: interfaces and small composable mo
 | 7 | Document `npm run site:start` and the Pages setup (repo Settings → Pages → Source: GitHub Actions) in `website/README.md` and a short README section | `website/README.md`, `README.md` | Docs render; links resolve in `site:build` | small |
 
 ## Risks
-- **The Pages source isn't switched to "GitHub Actions" in repo settings.** The deploy job would fail. Mitigation: Step 7 documents it, and the owner flips the setting once (see Open questions).
+- **The Pages source isn't switched to "GitHub Actions" in repo settings.** The deploy job would fail. Mitigation: Step 7 documents it, and the owner flips the setting once (manual prerequisite; see Open questions).
 - **The `baseUrl` is wrong, so assets 404 on Pages but work locally.** Mitigation: Step 2 verifies with `serve` under `/circuitext/`, and the post-deploy check requests a hashed asset URL.
 - **The workspace install pulls Docusaurus into library CI time.** Mitigation: cache npm, and keep library jobs running `npm ci --workspaces=false` if build time doubles.
 - **The `@docusaurus/*` and React 19 peer combination drifts.** Mitigation: exact pins, and dependency updates go through their own PR.
 
 ## Open questions
 1. Is `website/` acceptable as the directory, or do you prefer `docs-site/`? The plan assumes `website/`, which is the Docusaurus default.
-2. Can you switch the repo's Pages source to "GitHub Actions"? Only a repo admin can (one-time UI setting).
+2. ~~Can you switch the repo's Pages source to "GitHub Actions"?~~ **Resolved (2026-10-27): manual prerequisite, Daniel's admin step.** Daniel will switch Settings → Pages → Source to "GitHub Actions" himself (reminder set for Nov 5). The first deploy can't succeed until this is done; agents must not attempt it.
 3. Should the site be the README's home link? And should the npm `homepage` field point at it once it's live?
-4. Anchor's branch rule says feature branches come from `dev`. Should a `dev` branch be created from `main` now, or should feature branches target `main` until the first release?
+4. ~~Should a `dev` branch be created from `main` now?~~ **Resolved (2026-10-27):** a `dev` branch now exists in this repo, created from `main`. New feature branches come from and target `dev`. Existing PRs are not retargeted.
 
 ## Escalation triggers
 - Ambiguous requirement discovered → back to planner
@@ -84,4 +84,4 @@ Node/TypeScript per `.anchor/conventions.md`: interfaces and small composable mo
 - `npm run lint && npm test` still pass at the root (library unaffected)
 - `.github/workflows/pages.yml` and the CI `site` job exist, and the `site` job is green on the PR
 - The built site under `website/build` contains a search index and only references assets under `/circuitext/`
-- After merge to `main`, `https://carefreeinv.github.io/circuitext/` returns HTTP 200 (owner confirms Pages is enabled)
+- After merge to `main`, `https://carefreeinv.github.io/circuitext/` returns HTTP 200 (requires the manual prerequisite: Daniel has switched the Pages source to GitHub Actions)

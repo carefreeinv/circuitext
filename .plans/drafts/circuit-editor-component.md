@@ -80,7 +80,7 @@ React function components with hooks. CodeMirror is wrapped in a small `useCodeM
 - **CodeMirror's bundle weight pushes the editor UI chunk past its budget.** Mitigation: import only the needed `@codemirror/*` packages, not the `codemirror` meta bundle's basicSetup, if it's too large.
 
 ## Open questions
-1. CodeMirror 6 or Monaco? The plan assumes CodeMirror 6, which is smaller, has better mobile support and is easier to theme.
+1. CodeMirror 6 or Monaco? **Still open — awaiting Daniel's final call (decision 2026-10-27).** Recommended default: CodeMirror 6, because it is much smaller than Monaco and fits the ~250 KB gzip editor UI budget (it also has better mobile support and is easier to theme). Build on CodeMirror 6 unless Daniel decides otherwise.
 2. Is the share format `#ckt=<lz-string>` fine? Should share links also carry options (grid, width), or only the source?
 3. Should the editor offer a "Copy as tscircuit TSX" button (the existing `toTsx`) next to the KiCad download?
 4. Is WebKit required in the smoke test from day one? It adds about 1–2 minutes of CI time.

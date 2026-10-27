@@ -77,6 +77,9 @@ TypeScript, ESM, interfaces for the message protocol (`CompileRequest`, `Compile
 - **The worker chunk is cached poorly across deploys.** Mitigation: webpack contenthash file names, which Pages serves with ETags.
 - **The 3 MB worker budget is too tight after a tscircuit bump.** Mitigation: the budget lives in `budgets.json` and changing it is a reviewed one-line diff.
 
+## Decisions
+- **Editor library (2026-10-27):** not final yet — awaiting Daniel's call. Recommended default is CodeMirror 6, which fits the 250 KB editor UI budget; Monaco would not. See `circuit-editor-component`.
+
 ## Open questions
 1. Are the budget numbers right (0 KB compiler on plain pages, 250 KB editor UI, 3 MB gzip worker, about 1.5 s first compile)? Or do you want a stricter worker budget that would force deeper tree-shaking of `@tscircuit/core`?
 2. Should a parse-and-validate-only path (parser plus resolver, a few KB) run on the main thread for instant diagnostics, with the worker doing only layout and SVG? The plan assumes yes.
