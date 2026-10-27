@@ -1,0 +1,74 @@
+{
+  "name": "circuitext",
+  "version": "0.1.0",
+  "description": "Mermaid-style text syntax for circuits: compiles to tscircuit Circuit JSON, schematic SVG and KiCad .kicad_sch (prototype)",
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carefreeinv/circuitext.git"
+  },
+  "keywords": [
+    "circuit",
+    "schematic",
+    "tscircuit",
+    "kicad",
+    "mermaid",
+    "netlist",
+    "dsl"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "circuitext": "dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./mermaid": {
+      "types": "./dist/mermaid.d.ts",
+      "import": "./dist/mermaid.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.check.json",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "pretest": "npm run build",
+    "test": "vitest run",
+    "examples": "npm run build && node scripts/render-examples.mjs",
+    "verify:kicad": "npm run build && node scripts/verify-kicad.mjs",
+    "demo:build": "node scripts/build-demo.mjs",
+    "demo": "npm run demo:build && npx --yes serve@14 demo"
+  },
+  "dependencies": {
+    "@tscircuit/core": "0.0.2213",
+    "circuit-json": "0.0.534",
+    "circuit-json-to-kicad": "0.0.255",
+    "circuit-to-svg": "0.0.453",
+    "polygon-clipping": "0.15.7",
+    "react": "19.3.1",
+    "tscircuit": "0.0.3031"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.4",
+    "@types/node": "20.19.19",
+    "@types/react": "19.1.13",
+    "esbuild": "0.25.10",
+    "mermaid": "11.12.0",
+    "typescript": "5.9.3",
+    "vitest": "3.2.4"
+  }
+}

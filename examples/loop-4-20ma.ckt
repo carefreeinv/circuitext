@@ -1,0 +1,23 @@
+circuit "4-20mA loop sensor into ADS1115"
+# 24 V loop supply -> 2-wire transmitter -> 150 ohm shunt to ground.
+# 4 mA..20 mA across 150 ohm gives 0.6 V..3.0 V at AIN0.
+part V1 dc_source 24V
+part XMTR chip pins=pos,neg mpn="4-20mA XMTR"
+part R1 resistor 150 footprint=0805 tolerance=0.1%
+part U1 ads1115
+part C1 capacitor 100nF   // ADC decoupling
+
+net LOOP_P: V1.pos, XMTR.pos
+XMTR.neg -- R1.1
+R1.1 -- U1.AIN0
+R1.2 -- GND
+V1.neg -- GND
+
+# ADC supply and I2C
+U1.VDD -- VCC
+U1.GND -- GND
+U1.ADDR -- GND        %% I2C address 0x48
+C1.1 -- VCC
+C1.2 -- GND
+net SDA: U1.SDA
+net SCL: U1.SCL

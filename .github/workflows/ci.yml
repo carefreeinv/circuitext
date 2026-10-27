@@ -1,0 +1,29 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      # a transitive tscircuit dependency is pinned to a GitHub commit via git+ssh
+      - run: git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - name: Examples are up to date
+        run: |
+          npm run examples
+          git diff --exit-code -- examples
+      - run: npm run demo:build
