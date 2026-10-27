@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>circuitext Mermaid adapter</title>
+<style>body { font: 14px system-ui, sans-serif; margin: 24px; } .mermaid { max-width: 900px; }</style>
+</head>
+<body>
+<h1>circuitext inside Mermaid</h1>
+<p>A regular flowchart and a <code>circuitext</code> block rendered by the same <code>mermaid.run()</code>.</p>
+<pre class="mermaid">
+flowchart LR
+  sensor[4-20mA transmitter] --> shunt[150 Ω shunt] --> adc[ADS1115]
+</pre>
+<pre class="mermaid">
+circuitext "Voltage divider"
+  part R1 resistor 10k
+  part R2 resistor 4.7k
+  VIN -- R1.1
+  net VOUT: R1.2, R2.1
+  R2.2 -- GND
+</pre>
+<script type="module" src="dist/mermaid.js"></script>
+</body>
+</html>

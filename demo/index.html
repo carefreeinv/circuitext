@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>circuitext live demo</title>
+<style>
+  body { margin: 0; font: 14px system-ui, sans-serif; display: grid; grid-template-columns: minmax(320px, 38%) 1fr; height: 100vh; }
+  #left { display: flex; flex-direction: column; border-right: 1px solid #ccc; }
+  header { padding: 8px 12px; background: #222; color: #eee; display: flex; gap: 12px; align-items: center; }
+  header a { color: #9cf; }
+  textarea { flex: 1; font: 13px/1.45 ui-monospace, monospace; padding: 10px; border: 0; resize: none; outline: none; }
+  #status { white-space: pre-wrap; font: 12px ui-monospace, monospace; padding: 8px 12px; background: #f4f4f4; max-height: 30%; overflow: auto; }
+  #status.error { background: #fee; color: #a00; }
+  #out { overflow: auto; background: #f5f1ed; }
+  #out svg { max-width: 100%; height: auto; }
+</style>
+</head>
+<body>
+<div id="left">
+  <header><b>circuitext</b> <span>text → tscircuit → SVG</span> <button id="kicad">Download .kicad_sch</button> <a href="mermaid.html">Mermaid adapter</a></header>
+  <textarea id="src" spellcheck="false"></textarea>
+  <div id="status"></div>
+</div>
+<div id="out"></div>
+<script type="module" src="dist/demo.js"></script>
+</body>
+</html>

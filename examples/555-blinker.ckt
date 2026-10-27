@@ -1,0 +1,21 @@
+circuit "555 astable LED blinker"
+part U1 ne555
+part R1 resistor 1k
+part R2 resistor 47k
+part C1 capacitor 10uF
+part C2 capacitor 10nF
+part R3 resistor 330
+part D1 led red
+
+U1.VCC -- VCC
+U1.RESET -- VCC
+U1.GND -- GND
+VCC -- R1.1
+R1.2 -- U1.DIS -- R2.1
+R2.2 -- U1.THR -- U1.TRIG -- C1.1
+C1.2 -- GND
+U1.CTRL -- C2.1
+C2.2 -- GND
+U1.OUT -- R3.1
+R3.2 -- D1.anode
+D1.cathode -- GND
